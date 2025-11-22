@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { X, ShoppingCart } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
+import ProfileDropdown from "./ProfileDropdown";
 
 export default function Navbar({ navItems }) {
   return (
@@ -31,6 +32,9 @@ export default function Navbar({ navItems }) {
             0
           </span>
         </div>
+
+        {/* Profile */}
+        <ProfileDropdown />
       </nav>
     </div>
   );

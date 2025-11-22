@@ -2,9 +2,13 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { Menu } from "lucide-react";
 import Navbar from "./Navbar";
+import MobileMenu from "./MobileMenu";
 
 export default function Header() {
+  const [openMenu, setOpenMenu] = useState(false);
+
   const navItems = [
     { label: "Home", href: "/" },
     { label: "Games", href: "/games" },
@@ -23,7 +27,19 @@ export default function Header() {
 
         {/* Menu (Desktop) */}
         <Navbar navItems={navItems} />
+
+        {/* Mobile Button */}
+        <button className="md:hidden" onClick={() => setOpenMenu(true)}>
+          <Menu size={28} />
+        </button>
       </div>
+
+      {/* Mobile Menu */}
+      <MobileMenu
+        open={openMenu}
+        onClose={() => setOpenMenu(false)}
+        navItems={navItems}
+      />
     </header>
   );
 }
