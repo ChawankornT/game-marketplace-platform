@@ -35,3 +35,20 @@ button {
 .card-container {
   @apply bg-white rounded-lg shadow hover:shadow-xl cursor-pointer transition-shadow hover:border hover:border-purple-400/40 overflow-hidden;
 }
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradientMove {
+  background-size: 200% 200%;
+  animation: gradientMove 8s ease infinite;
+}
