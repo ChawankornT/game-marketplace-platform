@@ -12,7 +12,7 @@ export default function Home() {
     const fetchHeroData = async () => {
       try {
         setIsLoading(true);
-        const res = await fetch("/api/hero");
+        const res = await fetch("/api/heros");
 
         if (!res.ok) {
           throw new Error("Failed to fetch hero data");
