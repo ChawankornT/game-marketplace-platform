@@ -1,36 +1,255 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Game Marketplace Platform - Part 1 Theory
+
+## HTML/CSS/JavaScript
+
+1. อธิบายความแตกต่างระหว่าง display: flex และ display: grid พร้อมยกตัวอย่างการใช้งานที่เหมาะสมของแต่ละแบบ  
+   **Answer:**
+
+   - `display: flex` เป็นการจัดวางองค์ประกอบในหนึ่งมิติ (แนวนอนหรือแนวตั้ง) เหมาะสำหรับการจัดเรียงไอเท็มในแถวหรือคอลัมน์เดียว เช่น การสร้างเมนูหรือการจัดวางปุ่มในแถวเดียว
+   - `display: grid` เป็นการจัดวางองค์ประกอบในสองมิติ (ทั้งแถวและคอลัมน์) เหมาะสำหรับการสร้างเลย์เอาต์ที่ซับซ้อน เช่น การออกแบบหน้าเว็บที่มีหลายส่วน เช่น หัวข้อ เนื้อหา และแถบด้านข้าง
+
+2. Event Bubbling และ Event Capturing ใน JavaScript คืออะไร? อธิบายพร้อมตัวอย่าง  
+   **Answer:**
+
+   - Event Bubbling คือกระบวนการที่เหตุการณ์จะถูกส่งผ่านจากองค์ประกอบลูกไปยังองค์ประกอบพ่อแม่ จนถึง root element ตัวอย่างเช่น เมื่อคลิกที่ปุ่มภายใน div เหตุการณ์จะถูกส่งจากปุ่มไปยัง div และต่อไปยัง body
+   - Event Capturing คือกระบวนการที่เหตุการณ์จะถูกส่งผ่านจาก root element ไปยังองค์ประกอบลูก ตัวอย่างเช่น เมื่อคลิกที่ปุ่มภายใน div เหตุการณ์จะถูกส่งจาก body ไปยัง div และต่อไปยังปุ่ม
+
+3. จงอธิบายความแตกต่างระหว่าง let, const, และ var
+   **Answer:**
+
+   - `var` มีขอบเขตเป็นฟังก์ชัน (function scope) และสามารถถูก hoisted ได้ มีค่าเริ่มต้นเป็น undefined ซึ่งอาจทำให้เกิดปัญหาในการใช้งาน
+   - `let` มีขอบเขตเป็นบล็อก (block scope) และไม่สามารถถูก hoisted ได้ ทำให้ปลอดภัยกว่าในการใช้งานในบล็อกโค้ด
+   - `const` มีขอบเขตเป็นบล็อกเช่นเดียวกับ `let` แต่ค่าของตัวแปรที่ประกาศด้วย `const` ไม่สามารถเปลี่ยนแปลงได้หลังจากการกำหนดค่าเริ่มต้น
+
+4. CSS Specificity คืออะไร? จงเรียงลำดับความสำคัญจากมากไปน้อย
+   **Answer:**
+
+   - CSS Specificity คือ น้ำหนักความสำคัญ ของ selector ว่า browser จะเลือกกฎไหนมาใช้เมื่อมี style หลายอันทับกัน
+   - ลำดับความสำคัญจากมากไปน้อย:
+     1. #header .nav-item (เช่น id selectors)
+     2. .nav-item:hover
+     3. nav ul li.active
+     4. [data-active="true"]
+     5. nav > ul > li
+
+## React/Next.js
+
+5. อธิบายความแตกต่างระหว่าง Client-side Rendering (CSR), Server-side Rendering (SSR), Static Site Generation (SSG) และ Incremental Static Regeneration (ISR)
+   **Answer:**
+
+   - CSR คือการเรนเดอร์หน้าเว็บใน Browser บนฝั่ง Client หลังจากโหลด JavaScript แล้ว อาจโหลดช้าในครั้งแรกแต่ตอบสนองเร็วหลังจากนั้น เช่น useEffect ใน React
+   - SSR คือการเรนเดอร์หน้าเว็บบน Server ทุกครั้งที่มีการ Request ทำให้ได้ข้อมูลใหม่เสมอ แต่โหลดที่ช้ากว่า เช่น fetch data จาก API
+   - SSG คือการสร้างหน้าเว็บเป็นไฟล์ HTML ล่วงหน้าตอน build time ทำให้โหลดเร็วมาก แต่เนื้อหาอาจไม่จะไม่อัปเดทจนกว่าจะ build ใหม่
+   - ISR คือการผสมผสานระหว่าง SSG และ SSR โดยสามารถสร้างหน้าเว็บเป็นไฟล์ HTML ล่วงหน้าและอัปเดตเนื้อหาได้ตามช่วงเวลาที่กำหนดโดยไม่ต้อง rebuild ทั้งหมด
+
+6. useEffect Hook ทำงานอย่างไร? Dependency Array มีความสำคัญอย่างไร?
+   **Answer:**
+
+   - `useEffect` เป็น Hook ใน React ที่ใช้สำหรับจัดการ side effects เช่น การดึงข้อมูล การตั้งค่า subscriptions หรือการเปลี่ยนแปลง DOM หลังจากที่ component ถูกเรนเดอร์
+   - Dependency Array คือ array ที่ระบุว่าควรเรียกใช้ effect ใหม่เมื่อใด หากอาร์เรย์ว่าง (`[]`) effect จะถูกเรียกใช้เพียงครั้งเดียวหลังจากการเรนเดอร์ครั้งแรก หากมีค่าภายในอาร์เรย์ effect จะถูกเรียกใช้ใหม่เมื่อค่าของ dependencies เหล่านั้นเปลี่ยนแปลง
+
+7. React Context API vs Redux - เมื่อไหร่ควรใช้อะไร?
+   **Answer:**
+
+   - React Context API เหมาะสำหรับการจัดการ state ที่ไม่ซับซ้อนและมีขอบเขตจำกัด เช่น การจัดการธีม หรือการตั้งค่าภาษาในแอปพลิเค
+   - Redux เป็น state management library เหมาะสำหรับการจัดการ state ที่ซับซ้อนและมีหลายส่วนที่ต้องการเข้าถึง
+
+8. Next.js 14 App Router vs Pages Router - ข้อดีข้อเสียและความแตกต่าง
+   **Answer:**
+
+   - App Router (Next.js 14+) มีโครงสร้างที่ยืดหยุ่นกว่า รองรับการจัดการ layouts, templates, และ server components ได้ดี เหมาะสำหรับแอปพลิเคชันขนาดใหญ่ที่ต้องการความซับซ้อนในการจัดการหน้า
+   - Pages Router เป็นโครงสร้างแบบเดิมที่ง่ายต่อการเริ่มต้นและเหมาะสำหรับแอปพลิเคชันขนาดเล็กถึงกลาง ข้อเสียคือมีข้อจำกัดในการจัดการ layouts และ server components เมื่อเทียบกับ App Router
+
+## Performance & SEO
+
+9. Core Web Vitals ประกอบด้วยอะไรบ้าง? แต่ละตัววัดอะไร?
+   **Answer:**
+
+   - LCP (Largest Contentful Paint): วัดเวลาที่ใช้ในการโหลดเนื้อหาหลักของหน้าเว็บจนเสร็จสมบูรณ์ ใช้บอกว่าผู้ใช้เห็นเนื้อหาหลักของหน้าเร็วแค่ไหน
+   - FID (First Input Delay): วัดเวลาที่ใช้ในการตอบสนองต่อการโต้ตอบครั้งแรกของผู้ใช้ (คลิก, กดปุ่ม, ลิงก์) วัดความเร็วในการตอบสนองของเว็บ
+   - CLS (Cumulative Layout Shift): วัดความเสถียรของเลย์เอาต์ในระหว่างการโหลดหน้าเว็บ
+
+10. จงระบุเทคนิคการ optimize รูปภาพใน Next.js อย่างน้อย 5 วิธี
+    **Answer:**
+
+    - ใช้ Next.js Image Component (`next/image`) เพื่อโหลดรูปภาพแบบ lazy loading และปรับขนาดอัตโนมัติ
+    - ใช้ฟอร์แมตภาพที่ทันสมัย เช่น WebP หรือ AVIF แทน JPEG หรือ PNG
+    - กำหนดขนาดภาพที่เหมาะสม (width และ height) เพื่อป้องกันการเปลี่ยนแปลงเลย์เอาต์
+    - ใช้การบีบอัดภาพ (compression) เพื่อลดขนาดไฟล์โดยไม่สูญเสียคุณภาพมากนัก
+    - ใช้ priority สำหรับ LCP images เพื่อให้โหลดก่อนเมื่อหน้าเว็บถูกเรนเดอร์
+
+---
+
+# Game Marketplace Platform - Part 2 Coding Challenge
+
+A modern game marketplace web application built using **Next.js 16**, **Tailwind CSS**, **Framer Motion**, and **Zustand**.  
+This project follows the assignment requirements provided in the assessment document.
+
+---
+
+## Tech Stack
+
+| Category         | Technologies                           |
+| ---------------- | -------------------------------------- |
+| Framework        | Next.js 16 (App Router)                |
+| Language         | TypeScript                             |
+| Styling          | Tailwind CSS                           |
+| State Management | Zustand                                |
+| Animations       | Framer Motion                          |
+| API              | Next.js API Routes (Mock API)          |
+| Auth             | Firebase Authentication (Google OAuth) |
+
+---
+
+## Features
+
+### **Core Features**
+
+- Google Login (Firebase Auth)
+- Protected Routes (client-side)
+- Hero Section with animations
+- Featured Games Listing
+- News & Updates Section
+- Special Promotions Banner
+- Global Navigation + Header
+- Footer with payment icons
+- Dark/Light mode ready
+- Responsive layout
+
+### **Advanced Features**
+
+- Parallax hero
+- Lazy loading images
+- Skeleton loading
+- Add to cart animation
+- Category badges with colors
+- Time-ago format
+- Share buttons
+- Countdown timer on promotions
+- Animated gradient banner
+
+---
+
+## 🧪 Mock API
+
+Use Next.js API Routes
+
+### **/api/news**
+
+```
+// GET /api/news
+interface NewsArticle {
+  id: number;
+  title: string;
+  excerpt: string;
+  author: string;
+  publishDate: string;
+  readTime: number;
+  thumbnail: string;
+  category: "Update" | "Event" | "Maintenance" | "Promotion";
+}
+```
+
+### **/api/games**
+
+```
+// GET /api/games
+// Query params: category, search, sort, price
+interface Game {
+  id: number;
+  title: string;
+  developer: string;
+  price: number;
+  originalPrice?: number;
+  discount?: number;
+  category: "Action" | "RPG" | "Strategy" | "Sports" | "Puzzle";
+  rating: number;
+  reviewCount: number;
+  image: string;
+  tags: string[];
+  isNew?: boolean;
+  isTrending?: boolean;
+}
+```
+
+### **/api/promotions**
+
+```
+// GET /api/promotions
+interface Promotion {
+  id: number;
+  title: string;
+  subtitle: string;
+  banner: string;
+  buttonText: string;
+  link: string;
+  endDate: string;
+}
+```
+
+---
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
+- Node.js (v18 or later)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+
+   ```
+   git clone https://github.com/ChawankornT/game-marketplace-platform.git
+   cd game-marketplace-platform
+   ```
+
+2. Install dependencies:
+
+   ```
+   npm install
+   ```
+
+3. Set up Firebase Authentication:
+
+   - Create a Firebase project at [Firebase Console](https://console.firebase.google.com/).
+   - Enable Google Sign-In method in the Authentication section.
+   - Create a `.env.local` file in the root directory and add your Firebase config:
+     ```env
+     NEXT_PUBLIC_FIREBASE_API_KEY="your-api-key-here"
+     NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN="your-auth-domain-here"
+     NEXT_PUBLIC_FIREBASE_PROJECT_ID="your-project-id-here"
+     NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET="your-storage-bucket-here"
+     NEXT_PUBLIC_FIREBASE_SENDER_ID="your-sender-id-here"
+     NEXT_PUBLIC_FIREBASE_APP_ID="your-app-id-here"
+     NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID="your-measurement-id-here"
+     ```
+
+### Running the Application
+
+Start the development server:
+
+```
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open your browser and navigate to `http://localhost:3000` to view the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Project Structure
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+game-marketplace-platform/
+├── app/                    # Next.js App Router pages and layouts
+├── components/             # Reusable React components
+├── lib/                    # Utility functions and libraries
+├── public/                 # Public assets (images, icons, etc.)
+├── styles/                 # Global styles and Tailwind CSS config
+├── pages/api/              # Next.js API routes (mock API)
+├── store/                  # Zustand state management
+├── .env.local              # Environment variables
+├── package.json            # Project metadata and dependencies
+└── README.md               # Project documentation
+```
