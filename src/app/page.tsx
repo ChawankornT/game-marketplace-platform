@@ -1,24 +1,26 @@
 "use client";
 
-import { useAuthStore } from "@/store/auth.store";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import HeroCarousel from "@/components/hero/HeroCarousel";
+import { HeroBanner } from "@/types/hero";
+import { useState, useEffect } from "react";
 
 export default function Home() {
-  const user = useAuthStore((s) => s.user);
-  const loading = useAuthStore((s) => s.loading);
-  const router = useRouter();
+  const [banners, setBanners] = useState<HeroBanner[]>([]);
 
-  // useEffect(() => {
-  //   if (loading) return;
+  useEffect(() => {
+    const fetchHeroData = async () => {
+      const res = await fetch("/api/hero");
 
-  //   if (!user) return router.replace("/login");
-  //   return router.replace("/dashboard");
-  // }, [loading]);
+      const data = await res.json();
+      setBanners(data.banners);
+    };
+
+    fetchHeroData();
+  }, []);
 
   return (
-    <div className="text-center">
-      <h1>Home Page</h1>
-    </div>
+    <main className="max-w-7xl mx-auto pt-10 px-4">
+      <HeroCarousel heroBanner={banners} />
+    </main>
   );
 }

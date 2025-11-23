@@ -24,7 +24,7 @@ export default function Header() {
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.3 }}
-      className="sticky top-0 z-50 backdrop-blur-md bg-white/30 border-b border-white/20 dark:bg-black/40 dark:border-neutral-800 "
+      className="sticky top-0 z-50 backdrop-blur-md bg-white/30 border-b border-white/20 dark:bg-black/40 dark:border-neutral-800"
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between py-3 px-4">
         {/* Logo */}
