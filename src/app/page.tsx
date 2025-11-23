@@ -1,15 +1,24 @@
-import Navbar from "@/components/Navbar";
-import DashboardPage from "./dashboard/page";
+"use client";
+
+import { useAuthStore } from "@/store/auth.store";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Home() {
-  return (
-    <div>
-      <DashboardPage />
-    </div>
-    // <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-    //   <main className="flex min-h-screen w-full flex-col items-center justify-between bg-white dark:bg-black sm:items-start">
+  const user = useAuthStore((s) => s.user);
+  const loading = useAuthStore((s) => s.loading);
+  const router = useRouter();
 
-    //   </main>
-    // </div>
+  // useEffect(() => {
+  //   if (loading) return;
+
+  //   if (!user) return router.replace("/login");
+  //   return router.replace("/dashboard");
+  // }, [loading]);
+
+  return (
+    <div className="text-center">
+      <h1>Home Page</h1>
+    </div>
   );
 }
