@@ -3,20 +3,24 @@
 import Link from "next/link";
 import { ShoppingCart } from "lucide-react";
 import ProfileDropdown from "./ProfileDropdown";
+import { NavbarProps, NavItem } from "@/types/navbar";
+import { motion } from "framer-motion";
 
-export default function Navbar({ navItems }) {
+export default function Navbar({ navItems }: NavbarProps) {
   return (
     <div>
       {/* Menu (Desktop) */}
       <nav className="hidden md:flex items-center gap-6">
-        {navItems.map((item) => (
-          <Link
+        {navItems.map((item: NavItem) => (
+          <motion.span
             key={item.href}
-            href={item.href}
-            className="hover:text-blue-600"
+            whileHover={{ scale: 1.07 }}
+            transition={{ type: "spring", stiffness: 300 }}
           >
-            {item.label}
-          </Link>
+            <Link href={item.href} className="hover:text-blue-600">
+              {item.label}
+            </Link>
+          </motion.span>
         ))}
 
         {/* Search */}

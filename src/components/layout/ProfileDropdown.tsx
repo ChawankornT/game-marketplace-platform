@@ -3,6 +3,7 @@
 import { loginWithGoogle, logout } from "@/actions/auth";
 import { useAuthStore } from "@/store/auth.store";
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 export default function ProfileDropdown() {
   const user = useAuthStore((s) => s.user);
@@ -33,8 +34,12 @@ export default function ProfileDropdown() {
           </div>
 
           {open && (
-            <div className="flex flex-col">
-              <div className="absolute right-0 mt-2 bg-white p-3 rounded-lg shadow-lg border">
+            <div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="absolute right-0 mt-2 bg-white p-3 rounded-lg shadow-lg border"
+              >
                 <p className="font-medium">{user.displayName}</p>
                 <p className="text-xs text-gray-500">{user.email}</p>
                 <button
@@ -46,7 +51,7 @@ export default function ProfileDropdown() {
                 >
                   Logout
                 </button>
-              </div>
+              </motion.div>
             </div>
           )}
         </div>
