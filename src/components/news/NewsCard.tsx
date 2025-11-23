@@ -23,7 +23,7 @@ export default function NewsCard({ article }: { article: NewsArticle }) {
   return (
     <motion.div
       whileHover={{ scale: 1.02 }}
-      className="rounded-xl overflow-hidden bg-white/5 dark:bg-white/10 border border-white/10 hover:border-purple-400/40 backdrop-blur-sm"
+      className="card-container dark:bg-white/10 backdrop-blur-sm"
     >
       <div className="relative h-44 w-full">
         {article.thumbnail && (
